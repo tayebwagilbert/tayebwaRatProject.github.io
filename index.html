@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gilbert Project 2</title>
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" href="css/leaflet.draw.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+        <h1>Leaflet Data Collection Tool showing rats areas</h1>
+      </div>
+      <div id="map"></div>
+      <div id="controls">
+        <p>This map  utilizes leaflet API for web mapping in an interactive display of geographic information that you can use to tell stories and answer questions.<br>I have used this map formate following a<a href="https://github.com/maptimeboston/">maptime boston</a>  tutorial <br>In addition, you may find or create a map that addresses the question, which areas in the are affected by Rodents? </P><br><p>This map has Rat icons to display the real problem picture,you can choose to use your own PNG or JPG images </p>
+		<h2>Am still working on how to showing which neighborhoods are being affected and how</h2> <p>This requires SQL queries or use <a href="http://turfjs.org/">turfjs</a>
+for further analysis</p>
+		
+		
+      <!--  <input type="button" onclick="startEdits()" value="Click to Start Editing">
+        <input type="button" onclick="stopEdits()" value="Stop Your Editing Session"><br>
+        <div id="credits"><p>Gilbert Tayebwa</p></div>
+      </div>
+    </div>
+
+    <div id="dialog" title="Point Information">     
+      <form>
+        <fieldset style="border: none;">
+          <ul style="list-style-type: none; padding-left: 0px">
+            <li><label for="username">Your Name</label></li>
+            <li><input type="text" name="username" id="username" placeholder="Enter your name" class="text ui-widget-content ui-corner-all"></li>
+            <li><label for="description">About this Point</label></li>
+            <li><input type="text" name="description" id="description" placeholder="Description for this point" class="text ui-widget-content ui-corner-all"></li>
+          </ul>
+          <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+      </form>
+    </div>-->
+
+    <script src="js/leaflet.js"></script>
+    <script src="js/leaflet.draw.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+	// define variable for layer
+	
+	var mapObject=L.map('map',{center:[53.625306, -2.434973],zoom:13});
+	var Tills= L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      minZoom: 2,
+      maxZoom: 18
+    });
+	Tills.addTo(mapObject);
+	
+	
+	
+	
+  // load GeoJSON from an external file
+  $.getJSON("data/crimedataEDITED.geojson",function(data){
+  var myIcon = L.icon({
+    iconUrl: 'images/Rat.png',
+    iconSize: [20, 20]
+    
+	});
+    // add GeoJSON layer to the map once the file is loaded
+    L.geoJson(data,{pointToLayer:function(feature, latlng) {
+    return L.marker(latlng,{icon:myIcon});
+}}).addTo(mapObject);
+  });
+ 
+	
+	
+	
+	
+	
+	
+	
+	
+    
+    </script>
+  </body>
+</html>
